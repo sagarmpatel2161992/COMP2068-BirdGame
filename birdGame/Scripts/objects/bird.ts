@@ -4,7 +4,7 @@
      
         // CONSTRUCTOR ++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
-            super("Bird");
+            super("bird");
 
             this.x = constants.SCREEN_WIDTH - 30;
 

@@ -9,6 +9,7 @@
 /// <reference path="constants.ts" />
 
 /// <reference path="objects/background.ts" />
+/// <reference path="objects/bird.ts" />
 
 
 // Game Variables +++++++++++++++++++++++++++++++++++++++++++++
@@ -77,8 +78,9 @@ function setupStats() {
 //GAME LOOP +++++++++++++++++++++++++++++
 function gameLoop() {
     stats.begin(); // Begin metering
+    
     background.update();
-   
+    bird.update();
 
     stage.update(); // Refreshes our stage
 
@@ -94,6 +96,8 @@ function main() {
     background = new objects.Background();
     game.addChild(background);
 
+    bird = new objects.Bird();
+    game.addChild(bird);
 
     stage.addChild(game);
 
