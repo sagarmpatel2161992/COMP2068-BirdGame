@@ -5,29 +5,19 @@
 /// <reference path="typings/preloadjs/preloadjs.d.ts" />
 /// <reference path="typings/stats/stats.d.ts" />
 
+
 /// <reference path="constants.ts" />
-/// <reference path="objects/gameobject.ts" />
-/// <reference path="objects/plane.ts" />
-/// <reference path="objects/island.ts" />
-/// <reference path="objects/cloud.ts" />
-/// <reference path="objects/ocean.ts" />
 
-/// <reference path="objects/label.ts" />
-/// <reference path="objects/button.ts" />
-/// <reference path="objects/scoreboard.ts" />
-
-/// <reference path="states/gameover.ts" />
-/// <reference path="states/play.ts" />
-/// <reference path="states/menu.ts" />
+/// <reference path="objects/background.ts" />
 
 
-
-
-// Game Variables
+// Game Variables +++++++++++++++++++++++++++++++++++++++++++++
 var stats: Stats = new Stats();
 var canvas;
 var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
+var game: createjs.Container;
+
 
 // Score Variables
 var finalScore: number = 0;
@@ -40,26 +30,23 @@ var stateChanged: boolean = false;
 
 
 // Game Objects
-var gameOver: states.GameOver;
-var play: states.Play;
-var menu: states.Menu;
+var background: objects.Background;
+var bird: objects.Bird;
+
+
+// Game Objects
+var gameOver;
+var play;
+var menu;
 
 
 // asset manifest - array of asset objects
 var manifest = [
-    { id: "cloud", src: "assets/images/cloud.png" },
-    { id: "island", src: "assets/images/island.png" },
-    { id: "ocean", src: "assets/images/ocean.gif" },
-    { id: "plane", src: "assets/images/plane.png" },
-    { id: "tryAgainButton", src: "assets/images/tryAgainButton.png" },
-    { id: "playButton", src: "assets/images/playButton.png" },
-    { id: "engine", src: "assets/audio/engine.ogg" },
-    { id: "yay", src: "assets/audio/yay.ogg" },
-    { id: "thunder", src: "assets/audio/thunder.ogg" }
-
+    { id: "bird", src: "assets/images/bird.png" },
+    { id: "background", src: "assets/images/background.jpg" },
+    { id: "enemy", src: "assets/images/enemy.png" },
+    { id: "money", src: "assets/images/money.jpg" },   
 ];
-
-// Game Objects 
 
 function preload() {
     assetLoader = new createjs.LoadQueue(); // instantiated assetLoader
@@ -67,7 +54,6 @@ function preload() {
     assetLoader.on("complete", init, this); // event handler-triggers when loading done
     assetLoader.loadManifest(manifest); // loading my asset manifest
 }
-
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -77,10 +63,8 @@ function init() {
     createjs.Ticker.addEventListener("tick", gameLoop);
     setupStats();
 
-    currentState = constants.MENU_STATE;
-    changeState(currentState);
+    main();
 }
-
 // UTILITY METHODS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function setupStats() {
     stats.setMode(0);
@@ -90,54 +74,27 @@ function setupStats() {
     document.body.appendChild(stats.domElement);
 }
 
-
-
-
+//GAME LOOP +++++++++++++++++++++++++++++
 function gameLoop() {
     stats.begin(); // Begin metering
-
-    currentStateFunction.update();
-
-
-    if (stateChanged) {
-        changeState(currentState);
-    }
+    background.update();
+   
 
     stage.update(); // Refreshes our stage
 
     stats.end(); // End metering
 }
 
-
-
-
-
 // Our Game Kicks off in here
-function changeState(state: number) {
+function main() {
+    // Instantiate Game Container
+    game = new createjs.Container();
 
-    stateChanged = false;
-    switch (state) {
-        case constants.MENU_STATE:
-            // Instantiate Menu State
-            menu = new states.Menu();
-            currentStateFunction = menu;
-            break;
-        case constants.PLAY_STATE:
-            // Instantiate Play State
-            play = new states.Play();
-            currentStateFunction = play;
-            break;
-        case constants.GAME_OVER_STATE:
-            // Instantiate Game Over State
-            gameOver = new states.GameOver();
-            currentStateFunction = gameOver;
-            break;
-    }
+    // Add space to game
+    background = new objects.Background();
+    game.addChild(background);
 
 
+    stage.addChild(game);
 
-   
-
-
-    
 }

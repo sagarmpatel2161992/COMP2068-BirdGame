@@ -68,6 +68,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\images\background.jpg" />
+    <Content Include="assets\images\bird.png" />
+    <Content Include="assets\images\enemy.png" />
+    <Content Include="assets\images\money.jpg" />
     <Content Include="css\game.css" />
     <Content Include="index.html" />
     <Content Include="Scripts\lib\easeljs-0.8.0.min.js" />
@@ -81,12 +85,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets\" />
-    <Folder Include="Scripts\objects\" />
+    <Folder Include="assets\audio\" />
+    <Folder Include="assets\fonts\" />
     <Folder Include="Scripts\states\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\constants.ts" />
     <TypeScriptCompile Include="Scripts\game.ts" />
+    <TypeScriptCompile Include="Scripts\objects\background.ts" />
+    <TypeScriptCompile Include="Scripts\objects\bird.ts" />
     <TypeScriptCompile Include="Scripts\typings\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\easeljs\easeljs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
