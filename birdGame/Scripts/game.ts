@@ -7,9 +7,11 @@
 
 
 /// <reference path="constants.ts" />
+/// <reference path="objects/gameobject.ts" />
 
 /// <reference path="objects/background.ts" />
 /// <reference path="objects/bird.ts" />
+
 
 
 // Game Variables +++++++++++++++++++++++++++++++++++++++++++++
@@ -33,6 +35,7 @@ var stateChanged: boolean = false;
 // Game Objects
 var background: objects.Background;
 var bird: objects.Bird;
+var money: objects.Money[] = [];
 
 
 // Game Objects
@@ -81,6 +84,7 @@ function gameLoop() {
     
     background.update();
     bird.update();
+
 
     stage.update(); // Refreshes our stage
 

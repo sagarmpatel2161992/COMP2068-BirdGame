@@ -2,13 +2,13 @@
 
 module objects {
 
-    export class Bird extends objects.GameObject {
+    export class Enemy extends objects.GameObject {
      
         // CONSTRUCTOR ++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
-            super("bird");
+            super("enemy");
 
-            this.x = 10;
+            this.x = 480;
 
             //createjs.Sound.play("engine", { loop: -1 });
 
@@ -21,4 +21,4 @@ module objects {
         }
     }
 
-}  
+}   

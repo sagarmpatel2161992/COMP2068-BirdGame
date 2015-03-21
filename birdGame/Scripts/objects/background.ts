@@ -1,13 +1,12 @@
 ﻿module objects {
 
     export class Background extends createjs.Bitmap {
-        
         // PUBLIC VARIABLES
         public width;
         public height;
         public name;
         // PRIVATE VARIABLE
-        private _dx = 5;
+        private dx = 5;
 
         // CONSTRUCTOR ++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -17,28 +16,28 @@
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
 
-            this._reset();
+            this.reset();
 
         }
 
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++
-        private _reset() {
+        private reset() {
             // set the island to start at a random x value
-            this.x = -constants.BACKGROUND_RESET_WIDTH;
+            this.x = 0;
             this.y = 0
         }
 
-        private _checkBounds() {
-            if (this.x >= 0) {
-                this._reset();
+        private checkBounds() {
+            if (this.x <= -constants.BACKGROUND_RESET_WIDTH) {
+                this.reset();
             }
         }
 
 
         // PUBLIC METHODS ++++++++++++++++++++++++++++++++++++++++++
         public update() {
-            this.x += this._dx;
-            this._checkBounds();
+            this.x -= this.dx;
+            this.checkBounds();
         }
     }
 }     
