@@ -39,7 +39,7 @@ var background: objects.Background;
 var bird: objects.Bird;
 var money: objects.Money[] = [];
 var enemy: objects.Enemy[] = [];
-
+var scoreboard: objects.ScoreBoard;
 
 // Game Objects
 var gameOver;
@@ -100,6 +100,14 @@ function checkCollision(collider: objects.GameObject) {
         if (!collider.isColliding) {
             //createjs.Sound.play(collider.soundString);
             collider.isColliding = true;
+            switch (collider.name) {
+                case "money":
+                    scoreboard.score += 100;
+                    break;
+                case "enemy":
+                    scoreboard.lives--;
+                    break;
+            } 
         }
         else {
             collider.isColliding = false;
@@ -113,19 +121,26 @@ function gameLoop() {
     
     background.update();
     bird.update();
+    if (scoreboard.lives > 0) {
+        for (var enemyBird = constants.ENEMY_NUM; enemyBird > 0; enemyBird--) {
+            enemy[enemyBird].update();
+            checkCollision(enemy[enemyBird]);
+        }
 
-    for (var enemyBird = constants.ENEMY_NUM; enemyBird > 0; enemyBird--) {
-        enemy[enemyBird].update();
-        checkCollision(enemy[enemyBird]);
-    }
-
-    for (var count = constants.MONEY_NUM; count > 0; count--) {
-        money[count].update();
-        checkCollision(money[count]);
+        for (var count = constants.MONEY_NUM; count > 0; count--) {
+            money[count].update();
+            checkCollision(money[count]);
+        }
     }
 
     stage.update(); // Refreshes our stage
 
+    if (scoreboard.lives < 1) {
+        createjs.Sound.stop();
+        game.removeAllChildren();
+        //stage.removeChild(game);
+        stage.removeAllChildren();
+    }
     stats.end(); // End metering
 }
 
@@ -150,6 +165,10 @@ function main() {
         money[count] = new objects.Money();
         game.addChild(money[count]);
     }
+
+    //Add Scoreboard
+    scoreboard = new objects.ScoreBoard();
+
 
     stage.addChild(game);
 
