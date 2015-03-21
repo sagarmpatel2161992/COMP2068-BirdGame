@@ -8,7 +8,7 @@ module objects {
         constructor() {
             super("bird");
 
-            this.x = 10;
+            this.x = 20;
 
             //createjs.Sound.play("engine", { loop: -1 });
 

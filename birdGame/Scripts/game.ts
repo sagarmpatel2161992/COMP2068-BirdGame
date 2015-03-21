@@ -11,6 +11,8 @@
 
 /// <reference path="objects/background.ts" />
 /// <reference path="objects/bird.ts" />
+/// <reference path="objects/money.ts" />
+/// <reference path="objects/enemy.ts" />
 
 
 
@@ -36,6 +38,7 @@ var stateChanged: boolean = false;
 var background: objects.Background;
 var bird: objects.Bird;
 var money: objects.Money[] = [];
+var enemy: objects.Enemy[] = [];
 
 
 // Game Objects
@@ -85,6 +88,9 @@ function gameLoop() {
     background.update();
     bird.update();
 
+    for (var count = constants.MONEY_NUM; count > 0; count--) {
+        money[count].update();
+    }
 
     stage.update(); // Refreshes our stage
 
@@ -102,6 +108,16 @@ function main() {
 
     bird = new objects.Bird();
     game.addChild(bird);
+
+    for (var enemyBird = constants.ENEMY_NUM; enemyBird > 0; enemyBird--) {
+        enemy[enemyBird] = new objects.Enemy();
+        game.addChild(enemy[enemyBird]);
+    }
+
+    for (var count = constants.MONEY_NUM; count > 0; count--) {
+        money[count] = new objects.Money();
+        game.addChild(money[count]);
+    }
 
     stage.addChild(game);
 

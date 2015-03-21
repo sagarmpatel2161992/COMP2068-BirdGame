@@ -1,4 +1,7 @@
-﻿module objects {
+﻿/// <reference path="gameobject.ts" />
+
+
+module objects {
 
     export class Money extends objects.GameObject {
 
@@ -17,14 +20,14 @@
         private reset() {
             // set the island to start at a random x value
             this.y = Math.floor(Math.random() * constants.SCREEN_HEIGHT);
-            this.x = 0;
+            this.x = constants.BACKGROUND_RESET_WIDTH;
             // add drift to the cloud 
             this._dx = Math.floor(Math.random() * 5) + 5;
             this._dy = Math.floor(Math.random() * 4) - 2;
         }
 
         private checkBounds() {
-            if (this.x > (constants.SCREEN_WIDTH + this.width)) {
+            if (this.x < 0) {
                 this.reset();
             }
         }
@@ -34,7 +37,7 @@
 
         public update() {
             this.y -= this._dy;
-            this.x += this._dx;
+            this.x -= this._dx;
 
             this.checkBounds();
         }
