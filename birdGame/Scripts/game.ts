@@ -81,6 +81,32 @@ function setupStats() {
     document.body.appendChild(stats.domElement);
 }
 
+
+// Calculate the distance between two points ++++++++++++++++++++++++++++++++++++++
+function distance(p1: createjs.Point, p2: createjs.Point): number {
+
+    return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
+}
+
+//CHECK COLLISION  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function checkCollision(collider: objects.GameObject) {
+    var p1: createjs.Point = new createjs.Point();
+    var p2: createjs.Point = new createjs.Point();
+    p1.x = bird.x;
+    p1.y = bird.y;
+    p2.x = collider.x;
+    p2.y = collider.y;
+    if (distance(p2, p1) < ((bird.height * 0.5) + (collider.height * 0.5))) {
+        if (!collider.isColliding) {
+            //createjs.Sound.play(collider.soundString);
+            collider.isColliding = true;
+        }
+        else {
+            collider.isColliding = false;
+        }
+    }
+}
+
 //GAME LOOP +++++++++++++++++++++++++++++
 function gameLoop() {
     stats.begin(); // Begin metering
@@ -88,8 +114,14 @@ function gameLoop() {
     background.update();
     bird.update();
 
+    for (var enemyBird = constants.ENEMY_NUM; enemyBird > 0; enemyBird--) {
+        enemy[enemyBird].update();
+        checkCollision(enemy[enemyBird]);
+    }
+
     for (var count = constants.MONEY_NUM; count > 0; count--) {
         money[count].update();
+        checkCollision(money[count]);
     }
 
     stage.update(); // Refreshes our stage
