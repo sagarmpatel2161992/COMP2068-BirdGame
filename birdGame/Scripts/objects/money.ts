@@ -1,6 +1,4 @@
-﻿/// <reference path="gameobject.ts" />
-
-
+﻿
 module objects {
 
     export class Money extends objects.GameObject {

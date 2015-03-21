@@ -12,7 +12,16 @@
 /// <reference path="objects/background.ts" />
 /// <reference path="objects/bird.ts" />
 /// <reference path="objects/money.ts" />
+/// <reference path="objects/label.ts" />
 /// <reference path="objects/enemy.ts" />
+
+/// <reference path="objects/scoreboard.ts" />
+/// <reference path="objects/button.ts" />
+
+/// <reference path="states/gameover.ts" />
+/// <reference path="states/menu.ts" />
+/// <reference path="states/play.ts" />
+
 
 
 
@@ -42,9 +51,10 @@ var enemy: objects.Enemy[] = [];
 var scoreboard: objects.ScoreBoard;
 
 // Game Objects
-var gameOver;
-var play;
-var menu;
+// Game Objects
+//var gameOver: states.GameOver;
+var play: states.Play;
+var menu: states.Menu;
 
 
 // asset manifest - array of asset objects
@@ -52,12 +62,13 @@ var manifest = [
     { id: "bird", src: "assets/images/bird.png" },
     { id: "background", src: "assets/images/background.jpg" },
     { id: "enemy", src: "assets/images/enemy.png" },
-    { id: "money", src: "assets/images/money.jpg" },   
+    { id: "money", src: "assets/images/money.jpg" },
+    { id: "playbutton", src: "assets/images/playButton.png" },   
 ];
 
 function preload() {
     assetLoader = new createjs.LoadQueue(); // instantiated assetLoader
-    assetLoader.installPlugin(createjs.Sound);
+    //assetLoader.installPlugin(createjs.Sound);
     assetLoader.on("complete", init, this); // event handler-triggers when loading done
     assetLoader.loadManifest(manifest); // loading my asset manifest
 }
@@ -70,7 +81,9 @@ function init() {
     createjs.Ticker.addEventListener("tick", gameLoop);
     setupStats();
 
-    main();
+    currentState = constants.MENU_STATE;
+    changeState(currentState);
+
 }
 // UTILITY METHODS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function setupStats() {
@@ -82,94 +95,41 @@ function setupStats() {
 }
 
 
-// Calculate the distance between two points ++++++++++++++++++++++++++++++++++++++
-function distance(p1: createjs.Point, p2: createjs.Point): number {
-
-    return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
-}
-
-//CHECK COLLISION  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function checkCollision(collider: objects.GameObject) {
-    var p1: createjs.Point = new createjs.Point();
-    var p2: createjs.Point = new createjs.Point();
-    p1.x = bird.x;
-    p1.y = bird.y;
-    p2.x = collider.x;
-    p2.y = collider.y;
-    if (distance(p2, p1) < ((bird.height * 0.5) + (collider.height * 0.5))) {
-        if (!collider.isColliding) {
-            //createjs.Sound.play(collider.soundString);
-            collider.isColliding = true;
-            switch (collider.name) {
-                case "money":
-                    scoreboard.score += 100;
-                    break;
-                case "enemy":
-                    scoreboard.lives--;
-                    break;
-            } 
-        }
-        else {
-            collider.isColliding = false;
-        }
-    }
-}
-
 //GAME LOOP +++++++++++++++++++++++++++++
 function gameLoop() {
     stats.begin(); // Begin metering
     
-    background.update();
-    bird.update();
-    if (scoreboard.lives > 0) {
-        for (var enemyBird = constants.ENEMY_NUM; enemyBird > 0; enemyBird--) {
-            enemy[enemyBird].update();
-            checkCollision(enemy[enemyBird]);
-        }
+    currentStateFunction.update();
 
-        for (var count = constants.MONEY_NUM; count > 0; count--) {
-            money[count].update();
-            checkCollision(money[count]);
-        }
+    if (stateChanged) {
+        changeState(currentState);
     }
-
+  
     stage.update(); // Refreshes our stage
-
-    if (scoreboard.lives < 1) {
-        createjs.Sound.stop();
-        game.removeAllChildren();
-        //stage.removeChild(game);
-        stage.removeAllChildren();
-    }
     stats.end(); // End metering
 }
 
 // Our Game Kicks off in here
-function main() {
-    // Instantiate Game Container
-    game = new createjs.Container();
+function changeState(state: number) {
 
-    // Add space to game
-    background = new objects.Background();
-    game.addChild(background);
-
-    bird = new objects.Bird();
-    game.addChild(bird);
-
-    for (var enemyBird = constants.ENEMY_NUM; enemyBird > 0; enemyBird--) {
-        enemy[enemyBird] = new objects.Enemy();
-        game.addChild(enemy[enemyBird]);
+    stateChanged = false;
+    switch (state) {
+        case constants.MENU_STATE:
+            // Instantiate Menu State
+            menu = new states.Menu();
+            currentStateFunction = menu;
+            break;
+        case constants.PLAY_STATE:
+            // Instantiate Play State
+            play = new states.Play();
+            currentStateFunction = play;
+            break;
+        case constants.GAME_OVER_STATE:
+            // Instantiate Game Over State
+   //         gameOver = new states.GameOver();
+    //        currentStateFunction = gameOver;
+            break;
     }
-
-    for (var count = constants.MONEY_NUM; count > 0; count--) {
-        money[count] = new objects.Money();
-        game.addChild(money[count]);
-    }
-
-    //Add Scoreboard
-    scoreboard = new objects.ScoreBoard();
-
-
-    stage.addChild(game);
 
 }
+
