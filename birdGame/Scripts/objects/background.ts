@@ -13,6 +13,7 @@
             super(assetLoader.getResult("background"));
             this.name = "background";
 
+            // setting width and height
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
 
@@ -27,6 +28,7 @@
             this.y = 0
         }
 
+        // Check obund function 
         private checkBounds() {
             if (this.x <= -constants.BACKGROUND_RESET_WIDTH) {
                 this.reset();
