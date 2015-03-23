@@ -12,17 +12,19 @@
 
         //CONSTRUCTORS
         constructor(game: createjs.Container) {
+            // initialte and add liveslabel
             this._livesLabel = new createjs.Text("LIVES: ", constants.FONT_SIZE + " " +
                 constants.FONT_FAMILY, constants.FONT_COLOUR);
             game.addChild(this._livesLabel);
 
+            // initiate and add scorelabel
             this._scoreLabel = new createjs.Text("SCORE: ", constants.FONT_SIZE + " " +
                 constants.FONT_FAMILY, constants.FONT_COLOUR);
-
             this._scoreLabel.x = 350;
             game.addChild(this._scoreLabel);
         }
 
+        // update 
         update() {
             this._livesLabel.text = "LIVES: " + this.lives.toString();
             this._scoreLabel.text = "SCORE: " + this.score.toString();

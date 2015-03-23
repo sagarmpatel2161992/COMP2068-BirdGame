@@ -17,11 +17,11 @@
         constructor(assetString: string) {
 
             super(assetLoader.getResult(assetString));
-
+            // set position of gameobject 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
 
-            //console.log(this.width.toString());
+           
             this.regX = this.width * 0.5;
             this.regY = this.height * 0.5;
 

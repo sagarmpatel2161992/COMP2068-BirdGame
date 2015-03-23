@@ -24,21 +24,23 @@ module states {
             // Instantiate Game Container
             this.game = new createjs.Container();
 
-            // Add ocean to game
+            // Add background to game
             this.background = new objects.Background();
             this.game.addChild(this.background);
-
+            
+            // initiate and adding birdgame label to screen
             var birdGameLabel: objects.Label = new objects.Label("BIRD GAME", constants.SCREEN_CENTER_WIDTH, 100);
             birdGameLabel.font = "80px Consolas";
             birdGameLabel.regX = birdGameLabel.getMeasuredWidth() * 0.5;
             birdGameLabel.regY = birdGameLabel.getMeasuredHeight() * 0.5;
             this.game.addChild(birdGameLabel);
 
+            // initiate and adding playbutton label to screen
             this.playButton = new objects.Button("playbutton", constants.SCREEN_CENTER_WIDTH, 400);
             this.game.addChild(this.playButton);
             this.playButton.on("click", this.playButtonClicked, this);
 
-
+            // adding game object to stage
             stage.addChild(this.game);
         } // constructor end
 

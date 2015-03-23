@@ -8,7 +8,6 @@ module objects {
         constructor() {
             super("enemy");
             this.name = "enemy";
-            //this.soundString = "thunder";
 
             this.reset();
 
@@ -17,15 +16,16 @@ module objects {
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++
         private reset() {
-            // set the island to start at a random x value
+            // set the enemy to start at a random x value
             this.y = Math.floor(Math.random() * constants.SCREEN_HEIGHT);
             this.x = constants.BACKGROUND_RESET_WIDTH;
-            // add drift to the cloud 
+            // add drift to the enemy 
             this._dx = Math.floor(Math.random() * 5) + 5;
             this._dy = Math.floor(Math.random() * 4) - 2;
         }
 
         private checkBounds() {
+            // check for enemy's x position
             if (this.x < 0) {
                 this.reset();
             }

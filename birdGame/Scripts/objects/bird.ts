@@ -7,10 +7,9 @@ module objects {
         // CONSTRUCTOR ++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
             super("bird");
-
-            this.x = 20;
-
-            //createjs.Sound.play("engine", { loop: -1 });
+            // gamesound for background added
+            createjs.Sound.play("gameSound", {loop: -1});
+            this.x = 20;// bird position set         
 
         }
 

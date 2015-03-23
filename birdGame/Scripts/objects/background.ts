@@ -23,7 +23,7 @@
 
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++
         private reset() {
-            // set the island to start at a random x value
+            // set the background to start at a random x value
             this.x = 0;
             this.y = 0
         }
